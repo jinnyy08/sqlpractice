@@ -9,7 +9,7 @@ Input Format
 The STATION table is described as follows:
 
 
-#Self Solution
+#My Solution
 
 SELECT DISTINCT(CITY)
 FROM STATION
