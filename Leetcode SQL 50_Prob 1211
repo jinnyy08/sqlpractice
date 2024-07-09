@@ -1,0 +1,50 @@
+#1211. Queries Quality and Percentage
+
+#quality: The AVERAGE of the ratio between query rating and its position.
+
+#POOR query percentage: percentage of all queries with rating less than 3.
+
+#INSTRUCTION
+  # Write a solution to find each query_name, the quality and poor_query_percentage.
+  # Both quality and poor_query_percentage should be rounded to 2 decimal places.
+  # Return the result table in any order.
+
+
+#NOTE
+
+#1 SPLIT each 'select' sections
+#2 COMPUTE each formula for each section 
+#3 JOIN TOGETHER 
+#4 FINALIZE the whole query with GROUPING
+
+#1 SPLIT each 'select' sections & 2 Write formula for each 
+
+# QUALITY 
+  # quality = ratio between rating and position = (rating / position) 
+    #AVERAGE of ratio: (sum / its total frequency)
+      # -> SUM(rating / position) / COUNT (DISTINCT query_name) 
+      # -> SELECT SUM(rating / position) / COUNT (DISTINCT query_name) FROM Queries 
+    # => ROUND( SUM(rating / position) / COUNT (DISTINCT query_name) , 2) AS 'quality'
+
+#POOR_QUERY_PERCENTAGE
+  # poor_query_percentage = (no. of poor query) * 100 / TOTAL # of poor query 
+    #no. of poor query = query with (rating < 3) 
+      # -> SELECT COUNT query_name FROM Queries WHERE rating < 3 (SUBQUERY)
+    # TOTAL # of poor query
+      # COUNT DISTINCT query_name
+    # -> percentage COUNT DISTINCT query_name FROM Queries WHERE rating < 3 (SUBQUERY) * 100 / (COUNT DISTINCT query_name) 
+    # => ROUND( (SELECT COUNT query_name FROM Queries WHERE rating < 3) / (COUNT DISTINCT query_name) , 2) AS 'poor_query_percentage'
+
+  #Reference to other answers:
+    # percentage = sum(case when rating < 3 then 1 else 0 end) * 100 / count(*)
+    # => ROUND(sum(case when rating < 3 then 1 else 0 end) * 100 / count(*), 2) as poor_query_percentage
+
+
+#3 JOIN TOGETHER  & 4 Finalize 
+
+SELECT query_name, 
+    ROUND( AVG(rating / position), 2) AS 'quality', 
+    ROUND(sum(case when rating < 3 then 1 else 0 end) * 100 / count(*), 2) as poor_query_percentage
+FROM Queries
+WHERE query_name is NOT NULL 
+GROUP BY query_name;
