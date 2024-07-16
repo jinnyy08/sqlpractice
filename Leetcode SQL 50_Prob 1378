@@ -1,0 +1,16 @@
+#Basic JOINs
+#Replace Employee ID With The Unique Identifier
+
+#Write a solution to show the unique ID of each user, If a user does not have a unique ID replace just show null.
+#Return the result table in any order.
+
+#My Code
+
+SELECT unique_id, name
+From Employees E
+LEFT JOIN EmployeeUNI U
+ON E.id = U.id;
+
+
+#Notes
+#USAGE OF *LEFT JOIN* - to indicate the 'NULL' if there is no overlap in the unique_id
