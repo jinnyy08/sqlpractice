@@ -1,0 +1,24 @@
+#Basic Joins
+#1661. Average Time of Process per Machine
+
+
+#QUESTION
+
+#There is a factory website that has several machines each running the same number of processes. 
+#Write a solution to find the average time each machine takes to complete a process.
+#The time to complete a process is the 'end' timestamp minus the 'start' timestamp.
+#The average time is calculated by the total time to complete every process on the machine divided by the number of processes that were run.
+#The resulting table should have the machine_id along with the average time as processing_time, which should be rounded to 3 decimal places.\
+#Return the result table in any order.
+
+
+#MY CODE
+
+#using JOIN (joining self table)
+
+SELECT A1.machine_id, ROUND(AVG(A2.timestamp - A1.timestamp), 3) AS 'processing_time'
+FROM Activity A1
+JOIN Activity A2
+ON A1.machine_id = A2.machine_id AND A1.process_id = A2.process_id #Make sure all the other columns except Activity_type are SAME
+WHERE A1.activity_type = 'start' AND A2.activity_type = 'end'
+GROUP BY machine_id;
