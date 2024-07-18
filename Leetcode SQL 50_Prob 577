@@ -1,0 +1,22 @@
+#Basic Joins
+#577 Employee Bonus
+
+#QUESTION
+#Write a solution to report the name and bonus amount of each employee with a bonus less than 1000.
+#Return the result table in any order.
+
+
+#MY CODE
+
+SELECT E.name, B.bonus
+FROM Employee E
+LEFT JOIN Bonus B
+ON E.empId = B.empId
+WHERE B.bonus < 1000 OR B.bonus is NULL
+GROUP BY E.empId;
+
+
+#NOTE
+#Use LEFT JOIN, as we focus onto the NAME - E table
+#In the condition, also include the case of bonus being NULL
+  #bonus lower than 1000 - possible to be NULL/empty => use Left Join
