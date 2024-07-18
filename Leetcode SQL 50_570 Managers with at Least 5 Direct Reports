@@ -1,0 +1,24 @@
+#Basic Joins
+#570 Managers with at Least 5 Direct Reports
+
+
+#QUESTION
+
+#Write a solution to find managers with at least five direct reports.
+#Return the result table in any order.
+
+
+#MY CODE
+
+SELECT E1.name
+FROM Employee E1
+JOIN Employee E2
+ON E1.id = E2.managerId
+GROUP BY E2.managerId
+HAVING COUNT(E2.managerId) >= 5;
+
+
+#NOTE
+#AT LEAST 5 direct reports -> use COUNT(managerId)
+#JOIN its own table -> ON id AND manager_id
+#GROUP BY managerId -> additional condition, that its count is >= 5
