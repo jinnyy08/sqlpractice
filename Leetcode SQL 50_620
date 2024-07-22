@@ -1,0 +1,28 @@
+#Basic Aggregate Functions
+#620 Not Boring Movies
+
+
+#QUESTION
+
+#Write a solution to report the movies with an odd-numbered ID and a description that is not "boring".
+#Return the result table ordered by rating in descending order.
+
+
+#MY CODE
+
+SELECT *
+From Cinema
+WHERE MOD(ID, 2) = 1 #condition 1 - ODD-numbered id 
+    AND description <> "boring" #condition2 - NOT "boring"
+GROUP BY id
+ORDER BY rating DESC;
+
+
+#NOTE
+
+#be specific onto each conditions
+#condition 1 - ODD-numbered id 
+  # -> MOD function
+    # Using MOD(variable, dividing no.) = remainder 
+#condition2 - description NOT being "boring"
+  # -> use <> for NOT EQUAL 
