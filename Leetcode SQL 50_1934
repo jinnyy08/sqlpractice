@@ -1,0 +1,59 @@
+#Basic Joins
+#1934 Confirmation Rate
+
+
+#QUESTION
+
+#The confirmation rate of a user is the number of 'confirmed' messages divided by the total number of requested confirmation messages. The confirmation rate of a user that did not request any confirmation messages is 0. Round the confirmation rate to two decimal places.
+#Write a solution to find the confirmation rate of each user.
+#Return the result table in any order.
+
+
+#MY CODE
+
+SELECT S.user_id, ROUND( IFNULL( CnfMsg / TotMsg, 0 ), 2 ) AS 'confirmation_rate'
+FROM (
+    SELECT user_id, 
+        SUM(CASE WHEN action = 'confirmed' 
+            THEN 1 
+            ELSE 0 
+            END) As CnfMsg,
+        COUNT(action) As TotMsg
+    FROM Confirmations
+    GROUP BY user_id) As Cnf_Table
+RIGHT JOIN Signups S #Right, since Signups is the 'right' table - need to include ALL users
+ON Cnf_Table.user_id = S.user_id
+ORDER BY S.user_id;
+
+
+
+#NOTE
+
+#confirmation rate: ( # of 'confirmed' messages (using WHERE) ) / (TOTAL # of requested confirmation messages)
+    #Round to 2 decimal 
+    #ROUND(... , 2) AS '...'
+    #IF action does NOT EXIST, from user_id => confirmation_rate = 0
+      # -> use function COALESCE or IFNULL 
+
+#Need to use SUB-QUERY, to calculate confirmation rate
+    #Divide each two - ( # of 'confirmed' messages ) and (TOTAL # of requested confirmation messages)
+    #Make a new query, including TWO sections, as they all belong to 'Confirmations' table
+      #Name them each two sections - as short names
+    #Write a sub-query, which includes user_id, and two columns 
+    #use FROM to "bring" those two sections in this 
+
+    # (# of 'confirmed' messages)
+      # COUNT(action) FROM Confirmation WHERE action = 'confirmed'
+
+    # TOTAL # of requested confirmation messages
+      # COUNT * FROM Confirmations
+
+    #IFNULL( , 0)
+    
+
+#of EACH user 
+    # -> GROUP BY user
+
+#REQUEST => no need NULL 
+    # use INNER JOIN
+    #IF action does NOT EXIST, from user_id => confirmation_rate = 0
