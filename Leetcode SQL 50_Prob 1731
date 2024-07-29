@@ -1,0 +1,24 @@
+#Advanced SELECT and JOINS
+#1731. The Number of Employees Which Report to Each Employee
+
+#QUESTION
+
+#Write a solution to report the ids and the names of all managers, the number of employees who report directly to them, 
+  #and the average age of the reports rounded to the nearest integer.
+#Return the result table ordered by employee_id.
+
+
+#MY CODE
+
+SELECT E1.employee_id, E1.name, COUNT(E2.reports_to) AS 'reports_count', ROUND(AVG(E2.age)) AS 'average_age'
+FROM Employees E1
+JOIN Employees E2
+ON E1.employee_id = E2.reports_to
+GROUP BY 1
+ORDER BY 1
+
+
+#NOTE
+
+#employee_id and report_id are connected -> JOIN THEM together
+#GROUP BY employee_id
